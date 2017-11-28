@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Concurrent;
 
+    using Serpent.Chain;
     using Serpent.MessageBus.Extensions;
-    using Serpent.MessageHandlerChain;
 
     using Xunit;
 

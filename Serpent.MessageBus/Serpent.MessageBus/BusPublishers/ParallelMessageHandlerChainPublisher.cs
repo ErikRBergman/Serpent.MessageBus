@@ -8,9 +8,9 @@ namespace Serpent.MessageBus
     using System.Threading;
     using System.Threading.Tasks;
 
+    using Serpent.Chain;
+    using Serpent.Chain.Notification;
     using Serpent.MessageBus.Models;
-    using Serpent.MessageHandlerChain;
-    using Serpent.MessageHandlerChain.Notification;
 
     /// <summary>
     /// The parallel message handler chain publisher.
@@ -24,18 +24,18 @@ namespace Serpent.MessageBus
         /// <summary>
         /// Initializes a new instance of the <see cref="ParallelMessageHandlerChainPublisher{TMessageType}"/> class. 
         /// </summary>
-        /// <param name="messageHandlerChainBuilder">
+        /// <param name="ChainBuilder">
         /// The message handler chain builder
         /// </param>
-        public ParallelMessageHandlerChainPublisher(MessageHandlerChainBuilder<MessageAndHandler<TMessageType>> messageHandlerChainBuilder)
+        public ParallelMessageHandlerChainPublisher(ChainBuilder<MessageAndHandler<TMessageType>> ChainBuilder)
         {
-            messageHandlerChainBuilder.Handler(this.PublishAsync);
+            ChainBuilder.Handler(this.PublishAsync);
 
-            var subscriptionNotification = new MessageHandlerChainBuildNotification();
-            var services = new MessageHandlerChainBuilderSetupServices(subscriptionNotification);
-            this.publisher = messageHandlerChainBuilder.BuildFunc(services);
+            var subscriptionNotification = new ChainBuilderNotifier();
+            var services = new ChainBuilderSetupServices(subscriptionNotification);
+            this.publisher = ChainBuilder.BuildFunc(services);
 
-            var chain = new MessageHandlerChain<MessageAndHandler<TMessageType>>(this.publisher);
+            var chain = new Chain<MessageAndHandler<TMessageType>>(this.publisher);
             subscriptionNotification.Notify(chain);
         }
 

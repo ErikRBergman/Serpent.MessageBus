@@ -6,10 +6,10 @@ namespace Serpent.MessageBus
     using System.Threading;
     using System.Threading.Tasks;
 
+    using Serpent.Chain;
+    using Serpent.Chain.Notification;
     using Serpent.MessageBus.BusPublishers;
     using Serpent.MessageBus.Models;
-    using Serpent.MessageHandlerChain;
-    using Serpent.MessageHandlerChain.Notification;
 
     /// <summary>
     ///     Extensions for parallel message handler chain publisher
@@ -25,9 +25,9 @@ namespace Serpent.MessageBus
         /// <returns>Bus options</returns>
         public static ConcurrentMessageBusOptions<TMessageType> UseSubscriptionChain<TMessageType>(
             this ConcurrentMessageBusOptions<TMessageType> options,
-            Action<MessageHandlerChainBuilder<MessageAndHandler<TMessageType>>, Func<MessageAndHandler<TMessageType>, CancellationToken, Task>> configureMessageHandlerChain)
+            Action<ChainBuilder<MessageAndHandler<TMessageType>>, Func<MessageAndHandler<TMessageType>, CancellationToken, Task>> configureMessageHandlerChain)
         {
-            var builder = new MessageHandlerChainBuilder<MessageAndHandler<TMessageType>>();
+            var builder = new ChainBuilder<MessageAndHandler<TMessageType>>();
             configureMessageHandlerChain(builder, PublishToSubscription.PublishAsync);
 
             return UseSubscriptionChain(options, builder);
@@ -42,9 +42,9 @@ namespace Serpent.MessageBus
         /// <returns>Bus options</returns>
         public static ConcurrentMessageBusOptions<TMessageType> UseSubscriptionChain<TMessageType>(
             this ConcurrentMessageBusOptions<TMessageType> options,
-            Action<MessageHandlerChainBuilder<MessageAndHandler<TMessageType>>> configureMessageHandlerChain)
+            Action<ChainBuilder<MessageAndHandler<TMessageType>>> configureMessageHandlerChain)
         {
-            var builder = new MessageHandlerChainBuilder<MessageAndHandler<TMessageType>>();
+            var builder = new ChainBuilder<MessageAndHandler<TMessageType>>();
             configureMessageHandlerChain(builder);
 
             return UseSubscriptionChain(options, builder);
@@ -52,17 +52,17 @@ namespace Serpent.MessageBus
 
         private static ConcurrentMessageBusOptions<TMessageType> UseSubscriptionChain<TMessageType>(
             ConcurrentMessageBusOptions<TMessageType> options,
-            MessageHandlerChainBuilder<MessageAndHandler<TMessageType>> builder)
+            ChainBuilder<MessageAndHandler<TMessageType>> builder)
         {
             if (builder.HasHandler == false)
             {
                 builder.Handler(PublishToSubscription.PublishAsync);
             }
 
-            var subscriptionNotification = new MessageHandlerChainBuildNotification();
-            var services = new MessageHandlerChainBuilderSetupServices(subscriptionNotification);
+            var subscriptionNotification = new ChainBuilderNotifier();
+            var services = new ChainBuilderSetupServices(subscriptionNotification);
             var chainFunc = builder.BuildFunc(services);
-            var newChain = new MessageHandlerChain<MessageAndHandler<TMessageType>>(chainFunc);
+            var newChain = new Chain<MessageAndHandler<TMessageType>>(chainFunc);
             subscriptionNotification.Notify(newChain);
 
             options.UseCustomPublisher(new ParallelMessageHandlerChainPublisher<TMessageType>(chainFunc));

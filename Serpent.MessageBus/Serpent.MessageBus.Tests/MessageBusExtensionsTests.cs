@@ -3,7 +3,8 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using Serpent.MessageHandlerChain;
+    using Serpent.Chain;
+
     using Xunit;
 
     public class MessageBusExtensionsTests

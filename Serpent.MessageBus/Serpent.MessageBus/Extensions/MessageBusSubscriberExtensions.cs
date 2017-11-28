@@ -6,8 +6,8 @@ namespace Serpent.MessageBus
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Serpent.MessageHandlerChain;
-    using Serpent.MessageHandlerChain.Notification;
+    using Serpent.Chain;
+    using Serpent.Chain.Notification;
 
     /// <summary>
     /// The message bus subscriber extension types
@@ -48,20 +48,20 @@ namespace Serpent.MessageBus
         /// <param name="subscriptions">The subscriptions interface</param>
         /// <param name="setupAction">The method called to configure the message handler chain for the new subscription</param>
         /// <returns>The new message handler chain</returns>
-        public static IMessageHandlerChain<TMessageType> Subscribe<TMessageType>(
+        public static IChain<TMessageType> Subscribe<TMessageType>(
             this IMessageBusSubscriptions<TMessageType> subscriptions,
-            Action<IMessageHandlerChainBuilder<TMessageType>> setupAction)
+            Action<IChainBuilder<TMessageType>> setupAction)
         {
-            var builder = new MessageHandlerChainBuilder<TMessageType>();
+            var builder = new ChainBuilder<TMessageType>();
             setupAction(builder);
 
-            var subscriptionNotification = new MessageHandlerChainBuildNotification();
-            var services = new MessageHandlerChainBuilderSetupServices(subscriptionNotification);
+            var subscriptionNotification = new ChainBuilderNotifier();
+            var services = new ChainBuilderSetupServices(subscriptionNotification);
             var chainFunc = builder.BuildFunc(services);
 
             var subscription = subscriptions.Subscribe(chainFunc);
 
-            var chain = new MessageHandlerChain<TMessageType>(chainFunc, subscription.Dispose);
+            var chain = new Chain<TMessageType>(chainFunc, subscription.Dispose);
             subscriptionNotification.Notify(chain);
 
             return chain;

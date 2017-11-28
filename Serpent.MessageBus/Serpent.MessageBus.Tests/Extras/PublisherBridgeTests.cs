@@ -2,8 +2,8 @@
 
 namespace Serpent.MessageBus.Tests.Extras
 {
+    using Serpent.Chain;
     using Serpent.MessageBus.Extras;
-    using Serpent.MessageHandlerChain;
 
     using Xunit;
 

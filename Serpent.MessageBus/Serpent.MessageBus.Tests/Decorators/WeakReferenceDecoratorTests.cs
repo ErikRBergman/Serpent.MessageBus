@@ -4,8 +4,8 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Serpent.MessageHandlerChain;
-    using Serpent.MessageHandlerChain.Interfaces;
+    using Serpent.Chain;
+    using Serpent.Chain.Interfaces;
 
     using Xunit;
 

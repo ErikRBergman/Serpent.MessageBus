@@ -6,7 +6,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Serpent.MessageHandlerChain;
+    using Serpent.Chain;
 
     using Xunit;
 
