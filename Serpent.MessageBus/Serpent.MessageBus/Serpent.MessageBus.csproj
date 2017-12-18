@@ -3,17 +3,17 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.50.8</Version>
+    <Version>0.0.50.10</Version>
     <Authors>Erik Bergman</Authors>
     <Company>Serpent</Company>
     <Description>An asynchronous message bus</Description>
-    <FileVersion>0.0.50.8</FileVersion>
+    <FileVersion>0.0.50.10</FileVersion>
     <PackageProjectUrl>https://github.com/ErikRBergman/Serpent.MessageBus</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ErikRBergman/Serpent.MessageBus</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
     <PackageTags>Message bus, event bus, async</PackageTags>
-    <AssemblyVersion>0.0.50.8</AssemblyVersion>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <AssemblyVersion>0.0.50.10</AssemblyVersion>
+    <PackageReleaseNotes>Updated to the latest verison of Serpent.Chain (which is not backwards compatible)</PackageReleaseNotes>
 	<IncludeSymbols>true</IncludeSymbols>
   </PropertyGroup>
 
@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Serpent.Chain" Version="0.0.0.8" />
+    <PackageReference Include="Serpent.Chain" Version="0.0.0.10" />
   </ItemGroup>
 
 </Project>
