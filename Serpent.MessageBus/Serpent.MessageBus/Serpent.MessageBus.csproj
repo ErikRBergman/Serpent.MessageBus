@@ -1,37 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>0.0.50.10</Version>
+    <Version>0.0.50.11</Version>
     <Authors>Erik Bergman</Authors>
     <Company>Serpent</Company>
     <Description>An asynchronous message bus</Description>
-    <FileVersion>0.0.50.10</FileVersion>
+    <FileVersion>0.0.50.11</FileVersion>
     <PackageProjectUrl>https://github.com/ErikRBergman/Serpent.MessageBus</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ErikRBergman/Serpent.MessageBus</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
     <PackageTags>Message bus, event bus, async</PackageTags>
-    <AssemblyVersion>0.0.50.10</AssemblyVersion>
+    <AssemblyVersion>0.0.50.11</AssemblyVersion>
     <PackageReleaseNotes>Updated to the latest verison of Serpent.Chain (which is not backwards compatible)</PackageReleaseNotes>
-	<IncludeSymbols>true</IncludeSymbols>
+    <IncludeSymbols>true</IncludeSymbols>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
     <DocumentationFile>bin\Debug\netstandard2.0\Serpent.MessageBus.xml</DocumentationFile>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\netstandard2.0\Serpent.MessageBus.xml</DocumentationFile>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="PublishToNuget_NETSTANDARD.cmd" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Serpent.Chain" Version="0.0.0.19" />
   </ItemGroup>
-
 </Project>
