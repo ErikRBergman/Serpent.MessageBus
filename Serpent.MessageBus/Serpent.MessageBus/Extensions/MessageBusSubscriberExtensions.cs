@@ -103,9 +103,25 @@ namespace Serpent.MessageBus
         /// <param name="subscriptions">The subscriptions</param>
         /// <param name="handlerFunc">The handler method</param>
         /// <returns>A message bus subscription</returns>
-        public static IMessageBusSubscription Subscribe<TMessageType>(this IMessageBusSubscriptions<TMessageType> subscriptions, Func<TMessageType, Task> handlerFunc)
+        public static IMessageBusSubscription SubscribeSimple<TMessageType>(this IMessageBusSubscriptions<TMessageType> subscriptions, Func<TMessageType, Task> handlerFunc)
         {
             return subscriptions.Subscribe((message, token) => handlerFunc(message));
+        }
+
+        /// <summary>
+        /// Subscribes to a message bus
+        /// </summary>
+        /// <typeparam name="TMessageType">The message type</typeparam>
+        /// <param name="subscriptions">The subscriptions</param>
+        /// <param name="action">The method called when a message is published to the bus</param>
+        /// <returns>A message bus subscription</returns>
+        public static IMessageBusSubscription SubscribeSimple<TMessageType>(this IMessageBusSubscriptions<TMessageType> subscriptions, Action<TMessageType> action)
+        {   
+            return subscriptions.Subscribe((message, token) =>
+                {
+                    action(message);
+                    return Task.CompletedTask;
+                });
         }
     }
 }

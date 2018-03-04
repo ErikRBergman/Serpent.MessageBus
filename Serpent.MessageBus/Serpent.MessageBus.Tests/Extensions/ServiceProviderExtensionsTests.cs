@@ -13,7 +13,7 @@
         [Fact]
         public void TestServiceProviderExtensions()
         {
-            var intBus = new ConcurrentMessageBus<int>();
+            var intBus = new Bus<int>();
 
             var serviceProvider = new MyServiceProvider().Add<int>(() => 1).Add<IMessageBusPublisher<int>>(() => intBus).Add<IMessageBusSubscriptions<int>>(() => intBus);
 

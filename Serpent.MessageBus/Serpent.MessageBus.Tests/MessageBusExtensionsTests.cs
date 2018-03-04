@@ -12,7 +12,7 @@
         [Fact]
         public void TestSingleBusMultipleTypesExtensions()
         {
-            var bus = new ConcurrentMessageBus<BaseMessageType>();
+            var bus = new Bus<BaseMessageType>();
 
             var type1Received = new List<MessageType1>();
             var type2Received = new List<MessageType2>();

@@ -9,7 +9,7 @@ namespace Serpent.MessageBus
     /// <summary>
     ///     Concurrent message bus options extensions
     /// </summary>
-    public static class ConcurrentMessageBusOptionsExtensions
+    public static class BusOptionsExtensions
     {
         /// <summary>
         ///     Configures the bus to use a custom bus publisher
@@ -18,8 +18,8 @@ namespace Serpent.MessageBus
         /// <param name="options">The options</param>
         /// <param name="customBusPublisher">The custom bus publisher</param>
         /// <returns>The options</returns>
-        public static ConcurrentMessageBusOptions<TMessageType> UseCustomPublisher<TMessageType>(
-            this ConcurrentMessageBusOptions<TMessageType> options,
+        public static BusOptions<TMessageType> UseCustomPublisher<TMessageType>(
+            this BusOptions<TMessageType> options,
             BusPublisher<TMessageType> customBusPublisher)
         {
             options.CustomPublishFunc = customBusPublisher.PublishAsync;
@@ -39,7 +39,7 @@ namespace Serpent.MessageBus
         /// <returns>
         ///     The options
         /// </returns>
-        public static ConcurrentMessageBusOptions<TMessageType> UseForcedParallelPublisher<TMessageType>(this ConcurrentMessageBusOptions<TMessageType> options)
+        public static BusOptions<TMessageType> UseForcedParallelPublisher<TMessageType>(this BusOptions<TMessageType> options)
         {
             options.UseCustomPublisher(ForcedParallelPublisher<TMessageType>.Default);
             return options;
@@ -51,7 +51,7 @@ namespace Serpent.MessageBus
         /// <typeparam name="TMessageType">The message type</typeparam>
         /// <param name="options">The options</param>
         /// <returns>The options</returns>
-        public static ConcurrentMessageBusOptions<TMessageType> UseSerialPublisher<TMessageType>(this ConcurrentMessageBusOptions<TMessageType> options)
+        public static BusOptions<TMessageType> UseSerialPublisher<TMessageType>(this BusOptions<TMessageType> options)
         {
             return options.UseCustomPublisher(SerialPublisher<TMessageType>.Default);
         }
@@ -63,8 +63,8 @@ namespace Serpent.MessageBus
         /// <param name="options">The options</param>
         /// <param name="customHandlerMethod">The custom </param>
         /// <returns>The options</returns>
-        public static ConcurrentMessageBusOptions<TMessageType> UseSingleReceiverPublisher<TMessageType>(
-            this ConcurrentMessageBusOptions<TMessageType> options,
+        public static BusOptions<TMessageType> UseSingleReceiverPublisher<TMessageType>(
+            this BusOptions<TMessageType> options,
             Func<Func<TMessageType, CancellationToken, Task>, TMessageType, CancellationToken, Task> customHandlerMethod = null)
         {
             return options.UseCustomPublisher(new SingleReceiverPublisher<TMessageType>(customHandlerMethod));

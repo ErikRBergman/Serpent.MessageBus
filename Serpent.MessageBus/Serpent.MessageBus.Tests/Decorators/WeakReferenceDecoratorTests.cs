@@ -15,7 +15,7 @@
         public async Task WeakReferenceDecoratorTest()
         {
             // new int[] { 1 }.SelectMany()
-            var bus = new ConcurrentMessageBus<int>();
+            var bus = new Bus<int>();
 
             Assert.Equal(0, bus.SubscriberCount);
 
@@ -30,25 +30,7 @@
             Assert.Equal(1, bus.SubscriberCount);
 
             // Now weak reference
-            bus.Subscribe(b => b.WeakReference().Handler(new WeakReferenceHandler()));
-
-            Assert.Equal(2, bus.SubscriberCount);
-            GC.Collect(2, GCCollectionMode.Forced);
-            await bus.PublishAsync();
-
-            Assert.Equal(1, bus.SubscriberCount);
-
-            // Now weak reference with more decorators
-            bus.Subscribe(b => b.WeakReference().Delay(50).Concurrent(10).Handler(new WeakReferenceHandler()));
-
-            Assert.Equal(2, bus.SubscriberCount);
-            GC.Collect(2, GCCollectionMode.Forced);
-            await bus.PublishAsync();
-
-            Assert.Equal(1, bus.SubscriberCount);
-
-            // Weak reference with more decorators first
-            bus.Subscribe(b => b.Delay(50).Concurrent(10).WeakReference().Delay(50).Concurrent(10).Handler(new WeakReferenceHandler()));
+            bus.Subscribe(b => b.WeakReference(new WeakReferenceHandler()));
 
             Assert.Equal(2, bus.SubscriberCount);
             GC.Collect(2, GCCollectionMode.Forced);

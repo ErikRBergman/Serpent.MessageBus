@@ -11,11 +11,11 @@
         [Fact]
         public async Task TestConcurrentMessageBusNormal()
         {
-            var messageType1Bus = new ConcurrentMessageBus<MessageType1>();
+            var messageType1Bus = new Bus<MessageType1>();
 
             var type1Received = new List<MessageType1>();
 
-            messageType1Bus.Subscribe(
+            messageType1Bus.SubscribeSimple(
                 message =>
                     {
                         type1Received.Add(message);
@@ -34,12 +34,12 @@
         public async Task TestConcurrentMessageBusPatternMatching()
         {
             // If you would rather have a single message bus for your entire application, that can be done in this way
-            var bus = new ConcurrentMessageBus<MessageBase>();
+            var bus = new Bus<MessageBase>();
 
             var type1Received = new List<MessageType1>();
             var type2Received = new List<MessageType2>();
 
-            bus.Subscribe(
+            bus.SubscribeSimple(
                 message =>
                     {
                         switch (message)

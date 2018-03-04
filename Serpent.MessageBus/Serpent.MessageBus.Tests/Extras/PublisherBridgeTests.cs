@@ -12,7 +12,7 @@ namespace Serpent.MessageBus.Tests.Extras
         [Fact]
         public void PublisherBridge_Tests()
         {
-            var bus = new ConcurrentMessageBus<int>();
+            var bus = new Bus<int>();
 
             var count = 0;
 

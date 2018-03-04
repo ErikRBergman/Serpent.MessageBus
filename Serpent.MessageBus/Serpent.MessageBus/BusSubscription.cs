@@ -4,12 +4,12 @@
 
     using Serpent.MessageBus.Helpers;
 
-    internal class ConcurrentMessageBusSubscription : IMessageBusSubscription
+    internal class BusSubscription : IMessageBusSubscription
     {
         private readonly object lockObject = new object();
         private Action unsubscribeAction;
 
-        public ConcurrentMessageBusSubscription(Action unsubscribeAction)
+        public BusSubscription(Action unsubscribeAction)
         {
             this.unsubscribeAction = unsubscribeAction;
         }

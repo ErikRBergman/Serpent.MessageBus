@@ -18,7 +18,7 @@
         public async Task UseCustomPublisherTests()
         {
             var mypublisher = new MyPublisher();
-            var bus = new ConcurrentMessageBus<int>(options => options.UseCustomPublisher(mypublisher));
+            var bus = new Bus<int>(options => options.UseCustomPublisher(mypublisher));
 
             await bus.PublishAsync(55);
             await bus.PublishAsync(1);
@@ -35,7 +35,7 @@
         public async Task UseSubscriptionChainWithHandlerTests()
         {
             // Test having message handler decorators both in the publish dispatch and the Subscription
-            var bus = new ConcurrentMessageBus<TestMessage>(
+            var bus = new Bus<TestMessage>(
                 options => options.UseSubscriptionChain(
                     (chain, handler) =>
                         {
@@ -81,7 +81,7 @@
         public async Task UseSubscriptionChainWithoutHandlerTests()
         {
             // Test having message handler decorators both in the publisher and the subscription
-            var bus = new ConcurrentMessageBus<TestMessage>(
+            var bus = new Bus<TestMessage>(
                 options => options.UseSubscriptionChain(
                     chain => chain
                         .Action(c =>

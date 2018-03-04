@@ -9,7 +9,7 @@
     ///     The concurrent message bus options
     /// </summary>
     /// <typeparam name="TMessageType">The message type</typeparam>
-    public class ConcurrentMessageBusOptions<TMessageType>
+    public class BusOptions<TMessageType>
     {
         /// <summary>
         ///     Gets or sets the custom publish method. If CustomPublishFunc is not null, the method is invoked instead of the
@@ -17,6 +17,6 @@
         /// </summary>
         public Func<IEnumerable<Func<TMessageType, CancellationToken, Task>>, TMessageType, CancellationToken, Task> CustomPublishFunc { get; set; }
 
-        internal static ConcurrentMessageBusOptions<TMessageType> Default { get; } = new ConcurrentMessageBusOptions<TMessageType>();
+        internal static BusOptions<TMessageType> Default { get; } = new BusOptions<TMessageType>();
     }
 }

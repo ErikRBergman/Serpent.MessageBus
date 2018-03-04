@@ -23,8 +23,8 @@ namespace Serpent.MessageBus
         /// <param name="options">The options</param>
         /// <param name="configureMessageHandlerChain">The action called to setup the message handler chain</param>
         /// <returns>Bus options</returns>
-        public static ConcurrentMessageBusOptions<TMessageType> UseSubscriptionChain<TMessageType>(
-            this ConcurrentMessageBusOptions<TMessageType> options,
+        public static BusOptions<TMessageType> UseSubscriptionChain<TMessageType>(
+            this BusOptions<TMessageType> options,
             Action<ChainBuilder<MessageAndHandler<TMessageType>>, Func<MessageAndHandler<TMessageType>, CancellationToken, Task>> configureMessageHandlerChain)
         {
             var builder = new ChainBuilder<MessageAndHandler<TMessageType>>();
@@ -40,8 +40,8 @@ namespace Serpent.MessageBus
         /// <param name="options">The options</param>
         /// <param name="configureMessageHandlerChain">The action called to setup the message handler chain</param>
         /// <returns>Bus options</returns>
-        public static ConcurrentMessageBusOptions<TMessageType> UseSubscriptionChain<TMessageType>(
-            this ConcurrentMessageBusOptions<TMessageType> options,
+        public static BusOptions<TMessageType> UseSubscriptionChain<TMessageType>(
+            this BusOptions<TMessageType> options,
             Action<ChainBuilder<MessageAndHandler<TMessageType>>> configureMessageHandlerChain)
         {
             var builder = new ChainBuilder<MessageAndHandler<TMessageType>>();
@@ -50,8 +50,8 @@ namespace Serpent.MessageBus
             return UseSubscriptionChain(options, builder);
         }
 
-        private static ConcurrentMessageBusOptions<TMessageType> UseSubscriptionChain<TMessageType>(
-            ConcurrentMessageBusOptions<TMessageType> options,
+        private static BusOptions<TMessageType> UseSubscriptionChain<TMessageType>(
+            BusOptions<TMessageType> options,
             ChainBuilder<MessageAndHandler<TMessageType>> builder)
         {
             if (builder.HasHandler == false)
